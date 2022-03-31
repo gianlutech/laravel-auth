@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Auth::routes(['register' => true ]);
+Auth::routes(['register' => false ]);
 
 // Tutte le rotte protette con middleware auth
 Route::middleware('auth')
@@ -25,6 +25,9 @@ Route::middleware('auth')
     ->group(function () {
         Route::get('/', 'HomeController@index')->name('home');
         Route::resource('posts', 'PostController');    
+        Route::get('/{any}', function() {
+            abort(404);
+        })->where('any', '.*');    
     });
 
     Route::get('{any?}', function () {
